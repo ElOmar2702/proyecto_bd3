@@ -1,22 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-const conexion = require("./db"); // Importamos la conexión creada en db.js
+const conexion = require("./db");
 
 const app = express();
 
-// Middlewares globales
-app.use(cors()); // Permitir peticiones desde el frontend
-app.use(express.json()); // Habilitar la lectura de datos en formato JSON en el cuerpo (req.body)
+app.use(cors());
+app.use(express.json());
 
-// Ruta de prueba
 app.get("/", (req, res) => {
   res.send("Servidor funcionando correctamente");
 });
 
-// 1. Obtener todos los productos (READ)
 app.get("/Producto", (req, res) => {
   const sql = "SELECT * FROM Producto";
-
   conexion.query(sql, (error, resultados) => {
     if (error) {
       console.error("Error al consultar:", error);
@@ -26,7 +22,6 @@ app.get("/Producto", (req, res) => {
   });
 });
 
-// 2. Crear un nuevo producto (CREATE)
 app.post("/Producto", (req, res) => {
   const { nombre, precio, stock } = req.body;
   const sql = "INSERT INTO Producto (nombre, precio, stock) VALUES (?, ?, ?)";
@@ -45,7 +40,6 @@ app.post("/Producto", (req, res) => {
   });
 });
 
-// 3. Actualizar un producto existente (UPDATE)
 app.put("/Producto/:id", (req, res) => {
   const id = req.params.id;
   const { nombre, precio, stock } = req.body;
@@ -61,7 +55,6 @@ app.put("/Producto/:id", (req, res) => {
   });
 });
 
-// 4. Eliminar un producto (DELETE)
 app.delete("/Producto/:id", (req, res) => {
   const id = req.params.id;
   const sql = "DELETE FROM Producto WHERE id = ?";
@@ -75,11 +68,6 @@ app.delete("/Producto/:id", (req, res) => {
   });
 });
 
-// ==========================================
-// RUTAS PARA CONTACTOS / MENSAJES
-// ==========================================
-
-// 1. Obtener todos los mensajes (READ)
 app.get("/Contactos", (req, res) => {
   const sql = "SELECT * FROM contactos";
 
@@ -92,7 +80,6 @@ app.get("/Contactos", (req, res) => {
   });
 });
 
-// 2. Crear un nuevo mensaje (CREATE)
 app.post("/Contactos", (req, res) => {
   const { nombre, correo, asunto, mensaje } = req.body;
   const sql = "INSERT INTO contactos (nombre, correo, asunto, mensaje) VALUES (?, ?, ?, ?)";
@@ -111,7 +98,6 @@ app.post("/Contactos", (req, res) => {
   });
 });
 
-// 3. Eliminar un mensaje (DELETE)
 app.delete("/Contactos/:id", (req, res) => {
   const id = req.params.id;
   const sql = "DELETE FROM contactos WHERE id = ?";
@@ -125,7 +111,6 @@ app.delete("/Contactos/:id", (req, res) => {
   });
 });
 
-// Iniciar servidor en el puerto 3000
 app.listen(3000, () => {
   console.log("Servidor ejecutándose en http://localhost:3000");
 });

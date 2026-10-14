@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contactanos</title>
+  <title>Contáctanos</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="contacto.css" />
@@ -21,12 +21,14 @@
       </nav>
     </div>
   </header>
+
   <main class="contenedor contenido-contacto">
     <div class="encabezado-principal">
       <h1>Contacto</h1>
       <p>Escríbenos si tienes alguna pregunta.</p>
     </div>
 
+    <!-- SECCIÓN 1: Formulario -->
     <section class="tarjeta tarjeta-contacto">
       <h2>Envíanos un mensaje</h2>
 
@@ -53,16 +55,17 @@
 
         <button type="submit" class="btn btn-contacto">Enviar mensaje</button>
       </form>
-    
+    </section>
+
+    <!-- SECCIÓN 2: Historial de Mensajes (Independiente y afuera de la tarjeta anterior) -->
     <section class="tarjeta" id="seccionHistorialContactos">
       <h2>Historial de Mensajes Recibidos</h2>
       <div id="listaContactos" class="lista-productos">
-       
+        <!-- Los mensajes se cargan dinámicamente desde app.js -->
       </div>
     </section>
-
-    </section>
   </main>
+
   <footer class="footer">
     <div class="contenedor footer-contenido">
       <p>&copy; 2026 Tienda de Electronica</p>
