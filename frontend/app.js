@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:3000";
 
-// Elementos del DOM
 const listaProductos = document.getElementById("listaProductos");
 const formulario = document.getElementById("formularioProducto");
 const productoId = document.getElementById("productoId");
@@ -11,8 +10,8 @@ const btnGuardar = document.getElementById("btnGuardar");
 const btnCancelar = document.getElementById("btnCancelar");
 const tituloFormulario = document.getElementById("tituloFormulario");
 const formContacto = document.getElementById("formularioContacto");
+const listaContactos = document.getElementById("listaContactos");
 
-// 1. Función para consultar los productos y mostrarlos en el DOM (READ)
 async function cargarProductos() {
   if (!listaProductos) return;
 
@@ -50,7 +49,6 @@ async function cargarProductos() {
   }
 }
 
-// 2. Cargar datos del producto en el formulario para editar (UPDATE - Paso 1)
 function cargarEnFormulario(id, nombre, precio, stock) {
   productoId.value = id;
   nombreInput.value = nombre;
@@ -63,7 +61,6 @@ function cargarEnFormulario(id, nombre, precio, stock) {
   nombreInput.focus();
 }
 
-// Cancelar edición y restaurar formulario
 function cancelarEdicion() {
   formulario.reset();
   productoId.value = "";
@@ -76,10 +73,9 @@ if (btnCancelar) {
   btnCancelar.addEventListener("click", cancelarEdicion);
 }
 
-// 3. Guardar o Actualizar según si hay un ID seleccionado (CREATE o UPDATE)
 if (formulario) {
   formulario.addEventListener("submit", async (event) => {
-    event.preventDefault(); // Evitar que la página se recargue
+    event.preventDefault();
 
     const id = productoId.value;
     const nombre = nombreInput.value;
@@ -88,14 +84,12 @@ if (formulario) {
 
     try {
       if (id) {
-        // MODO ACTUALIZAR (PUT)
         await fetch(`${API_URL}/Producto/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nombre, precio, stock }),
         });
       } else {
-        // MODO CREAR (POST)
         await fetch(`${API_URL}/Producto`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -103,15 +97,14 @@ if (formulario) {
         });
       }
 
-      cancelarEdicion(); // Limpiar formulario y restaurar botones
-      cargarProductos(); // Refrescar la lista en pantalla
+      cancelarEdicion();
+      cargarProductos();
     } catch (error) {
       console.error("Error al guardar el producto:", error);
     }
   });
 }
 
-// 4. Eliminar un producto (DELETE)
 async function eliminarProducto(id) {
   const confirmar = confirm("¿Deseas eliminar este producto de la base de datos?");
   if (!confirmar) return;
@@ -121,25 +114,102 @@ async function eliminarProducto(id) {
       method: "DELETE",
     });
 
-    // Si estábamos editando ese mismo producto, cancelamos la edición
     if (productoId.value == id) {
       cancelarEdicion();
     }
 
-    cargarProductos(); // Refrescar la lista en pantalla
+    cargarProductos();
   } catch (error) {
     console.error("Error al eliminar producto:", error);
   }
 }
 
-// 5. Formulario de contacto (demostrativo en contacto.html)
+async function cargarContactos() {
+  if (!listaContactos) return;
+
+  try {
+    const respuesta = await fetch(`${API_URL}/Contactos`);
+    const contactos = await respuesta.json();
+
+    listaContactos.innerHTML = "";
+
+    if (contactos.length === 0) {
+      listaContactos.innerHTML = "<p style='color: #64748b;'>No hay mensajes de contacto registrados.</p>";
+      return;
+    }
+
+    contactos.forEach((c) => {
+      const elemento = document.createElement("div");
+      elemento.classList.add("producto");
+
+      const fechaFormateada = c.fecha_creacion ? new Date(c.fecha_creacion).toLocaleString() : '';
+
+      elemento.innerHTML = `
+        <div>
+          <h3>Asunto: ${c.asunto}</h3>
+          <p><strong>De:</strong> ${c.nombre} (${c.correo})</p>
+          <p><strong>Mensaje:</strong> ${c.mensaje}</p>
+          <p style="font-size: 0.85rem; color: #64748b; margin-top: 5px;"><strong>Fecha:</strong> ${fechaFormateada}</p>
+        </div>
+        <div class="acciones">
+          <button class="btn-eliminar" onclick="eliminarContacto(${c.id})">Eliminar</button>
+        </div>
+      `;
+
+      listaContactos.appendChild(elemento);
+    });
+  } catch (error) {
+    console.error("Error al cargar los contactos:", error);
+  }
+}
+
 if (formContacto) {
-  formContacto.addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("¡Mensaje de contacto enviado con éxito!");
-    formContacto.reset();
+  formContacto.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const nombre = document.getElementById("nombreContacto").value;
+    const correo = document.getElementById("correoContacto").value;
+    const asunto = document.getElementById("asuntoContacto").value;
+    const mensaje = document.getElementById("mensajeContacto").value;
+
+    try {
+      const respuesta = await fetch(`${API_URL}/Contactos`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, correo, asunto, mensaje }),
+      });
+
+      if (respuesta.ok) {
+        alert("¡Mensaje enviado y guardado en la base de datos con éxito!");
+        formContacto.reset();
+        cargarContactos();
+      } else {
+        alert("Hubo un error al guardar el contacto.");
+      }
+    } catch (error) {
+      console.error("Error al enviar el formulario de contacto:", error);
+    }
   });
 }
 
-// Llamado inicial al cargar la página
+async function eliminarContacto(id) {
+  const confirmar = confirm("¿Deseas eliminar este mensaje de contacto?");
+  if (!confirmar) return;
+
+  try {
+    const respuesta = await fetch(`${API_URL}/Contactos/${id}`, {
+      method: "DELETE",
+    });
+
+    if (respuesta.ok) {
+      cargarContactos();
+    } else {
+      alert("No se pudo eliminar el contacto.");
+    }
+  } catch (error) {
+    console.error("Error al eliminar contacto:", error);
+  }
+}
+
 cargarProductos();
+cargarContactos();
