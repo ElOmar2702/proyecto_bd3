@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Tienda — Inicio</title>
+
+  <!-- Fuente moderna -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="inicio.css" />
+</head>
+
+<body>
+  <!-- ===== BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
+  <header class="navbar">
+    <div class="contenedor nav-contenido">
+      <a href="inicio.html" class="logo">Mi<strong>Tienda</strong></a>
+      <nav class="nav-links">
+        <a href="inicio.html" class="activo">Inicio</a>
+        <a href="index.html">Productos</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== SECCIÓN PRINCIPAL (HERO) ===== -->
+  <section class="hero">
+    <div class="contenedor hero-contenido">
+      <div class="hero-texto">
+        <span class="etiqueta">Plataforma Full-Stack</span>
+        <h1>Gestiona tu inventario de forma rápida y segura</h1>
+        <p>
+          Administra el catálogo de productos, controla el stock en tiempo real y actualiza precios 
+          directamente en tu base de datos MySQL mediante nuestra API REST.
+        </p>
+        <div class="hero-botones">
+          <a href="index.html" class="btn btn-primario">Ir a Gestión de Productos</a>
+          <a href="index.html#registro" class="btn btn-secundario">Registrar Nuevo Producto</a>
+        </div>
+      </div>
+
+      <div class="hero-tarjeta-visual">
+        <div class="resumen-card">
+          <div class="resumen-header">
+            <span class="punto rojo"></span>
+            <span class="punto amarillo"></span>
+            <span class="punto verde"></span>
+            <span class="titulo-ventana">Estado del Sistema</span>
+          </div>
+          <div class="resumen-body">
+            <div class="dato-item">
+              <span class="dato-label">Servidor Backend</span>
+              <span class="dato-valor activo-badge">Node.js + Express</span>
+            </div>
+            <div class="dato-item">
+              <span class="dato-label">Base de Datos</span>
+              <span class="dato-valor">MySQL Conectado</span>
+            </div>
+            <div class="dato-item">
+              <span class="dato-label">Operaciones</span>
+              <span class="dato-valor">CRUD Completo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN DE CARACTERÍSTICAS ===== -->
+  <main class="contenedor seccion-caracteristicas">
+    <div class="encabezado-seccion">
+      <h2>¿Qué puedes hacer en el sistema?</h2>
+      <p>Herramientas diseñadas para simplificar el control de tu tienda</p>
+    </div>
+
+    <div class="grid-caracteristicas">
+      <article class="tarjeta-feature">
+        <div class="icono-feature">📦</div>
+        <h3>Registro Ágil</h3>
+        <p>Añade nuevos artículos especificando nombre, precio unitario y cantidad disponible en inventario.</p>
+      </article>
+
+      <article class="tarjeta-feature">
+        <div class="icono-feature">✏️</div>
+        <h3>Edición en Tiempo Real</h3>
+        <p>Modifica precios o ajusta existencias al instante con sincronización directa en la base de datos.</p>
+      </article>
+
+      <article class="tarjeta-feature">
+        <div class="icono-feature">📊</div>
+        <h3>Control de Catálogo</h3>
+        <p>Visualiza todos tus productos organizados y depura artículos descontinuados con un solo clic.</p>
+      </article>
+    </div>
+
+    <!-- ===== LLAMADO A LA ACCIÓN (CTA) ===== -->
+    <section class="cta-banner">
+      <div class="cta-texto">
+        <h2>¿Listo para administrar tus productos?</h2>
+        <p>Accede al panel de control para consultar o actualizar el inventario.</p>
+      </div>
+      <a href="index.html" class="btn btn-cta">Abrir Panel de Control</a>
+    </section>
+  </main>
+
+  <!-- ===== PIE DE PÁGINA (FOOTER) ===== -->
+  <footer class="footer">
+    <div class="contenedor footer-contenido">
+      <p>&copy; 2026 Mi Tienda — Proyecto Formativo con Node.js, Express y MySQL.</p>
+    </div>
+  </footer>
+</body>
+
+</html>
